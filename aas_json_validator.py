@@ -10,6 +10,10 @@ endpoint = "http://localhost:..."
 #Method / Operation
 interface_operation = "Get..."
 
+#Load AAS JSON Schema
+with open('FILE LOCATION AAS SCHEMA') as f:
+    schema_str = f.read()
+
 #----------------DO NOT ALTER BELOW----------------
 
 #API Request
@@ -18,9 +22,7 @@ json_data = None
 if status_code == "200" or status_code == "201" :
     json_data= json.loads(requests.get(endpoint).text)
 
-#JSON AAS SCHEMA
-with open('FILE LOCATION AAS SCHEMA') as f:
-    schema_str = f.read()
+#Fetch Operation Path
 json_schema= json.loads(schema_str)
 schema_for_path = json_schema.get("paths", {}).get(interface_operation, {}).get("get", {}).get("responses", {}).get(status_code, {}).get("schema")
 
